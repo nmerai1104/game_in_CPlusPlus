@@ -1,0 +1,95 @@
+#include <iostream>
+using namespace std;
+
+char board[9] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
+
+void print_board()
+{
+    string row1 = "| " + string(1, board[0]) + " | " + string(1, board[1]) + " | " + string(1, board[2]) + " |";
+    string row2 = "| " + string(1, board[3]) + " | " + string(1, board[4]) + " | " + string(1, board[5]) + " |";
+    string row3 = "| " + string(1, board[6]) + " | " + string(1, board[7]) + " | " + string(1, board[8]) + " |";
+
+    cout << endl;
+    cout << row1 << endl;
+    cout << row2 << endl;
+    cout << row3 << endl;
+    cout << endl;
+}
+
+void player_move(char icon)
+{
+    int number;
+    if (icon == 'X')
+        number = 1;
+    else if (icon == 'O')
+        number = 2;
+
+    cout << "Your turn player " << number << endl;
+    int choice;
+    cin >> choice;
+
+    if (board[choice - 1] == ' ')
+        board[choice - 1] = icon;
+    else
+    {
+        cout << endl;
+        cout << "That space is already taken!" << endl;
+    }
+}
+
+bool is_victory(char icon)
+{
+    if ((board[0] == icon && board[1] == icon && board[2] == icon) ||
+        (board[3] == icon && board[4] == icon && board[5] == icon) ||
+        (board[6] == icon && board[7] == icon && board[8] == icon) ||
+        (board[0] == icon && board[3] == icon && board[6] == icon) ||
+        (board[1] == icon && board[4] == icon && board[7] == icon) ||
+        (board[2] == icon && board[5] == icon && board[8] == icon) ||
+        (board[0] == icon && board[4] == icon && board[8] == icon) ||
+        (board[2] == icon && board[4] == icon && board[6] == icon))
+        return true;
+    else
+        return false;
+}
+
+bool is_draw()
+{
+    if (count(board, board + 9, ' ') == 0)
+        return true;
+    else
+        return false;
+}
+
+int main()
+{
+    while (true)
+    {
+        print_board();
+        player_move('X');
+        print_board();
+        if (is_victory('X'))
+        {
+            cout << "X wins! Congratulations!" << endl;
+            break;
+        }
+        else if (is_draw())
+        {
+            cout << "It's a draw!" << endl;
+            break;
+        }
+        player_move('O');
+        if (is_victory('O'))
+        {
+            print_board();
+            cout << "O wins! Congratulations!" << endl;
+            break;
+        }
+        else if (is_draw())
+        {
+            cout << "It's a draw!" << endl;
+            break;
+        }
+    }
+
+    return 0;
+}
